@@ -1,9 +1,9 @@
-import DBConfiguration from './dbConfig';
+import dotenv from "dotenv";
+dotenv.config({path:'./config.env'})
 import express from 'express';
 import bodyParser from "body-parser";
 import api from './api-routes';
 import mongoose from 'mongoose';
-
 
 //Initialize app
 let app = express();
@@ -22,15 +22,9 @@ app.use(bodyParser.urlencoded({
 app.use('/crm',api);
 
 //db connection
-const dbConfig = new DBConfiguration();
-const connString = `mongodb://${dbConfig.COSMOS_HOST}:${dbConfig.COSMOS_PORT}/${dbConfig.COSMOS_DBNAME}?ssl=true&replicaSet=globaldb&retrywrites=false`
 
-mongoose.connect(connString,{
+mongoose.connect(process.env.CONNECTION_STRING,{
     useNewUrlParser:true,
-    auth:{
-        username:dbConfig.COSMOS_USER,
-        password:dbConfig.COSMOS_PASSWORD,
-    },
 }).then(()=>console.log('Db connection successful'))
 .catch((err)=>console.error(err));
 
