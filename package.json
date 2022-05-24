@@ -4,7 +4,7 @@
   "description": "A POC Rest Api with NodeJs Express and MongoDb",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha",
     "start": "nodemon -r esm index.js",
     "debug": "nodemon -r esm --inspect index.js"
   },
@@ -19,9 +19,19 @@
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.0",
+    "chai": "^4.3.6",
     "dotenv": "^16.0.1",
     "esm": "^3.2.25",
     "express": "^4.18.1",
-    "mongoose": "^6.3.4"
+    "mocha": "^10.0.0",
+    "mongoose": "^6.3.4",
+    "regenerator-runtime": "^0.13.9",
+    "sinon": "^14.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.10",
+    "@babel/core": "^7.18.0",
+    "@babel/preset-env": "^7.18.0",
+    "@babel/register": "^7.17.7"
   }
 }
