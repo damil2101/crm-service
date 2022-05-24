@@ -1,4 +1,5 @@
-import mongoose, { model } from "mongoose";
+//used require instead of import here to make tests work
+var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
     _id:Number,
@@ -23,5 +24,3 @@ var User = module.exports = mongoose.model('user',userSchema);
 module.exports.get = function(callback,limit){
     User.find(callback).limit(limit);
 }
-
-export default User;
