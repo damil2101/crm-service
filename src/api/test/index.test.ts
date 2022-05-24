@@ -42,7 +42,7 @@ describe("crm service unit tests",function(){
                 age,
                 occupation
             }).save().catch((err) => {
-                expect(err.message).to.equal("A user already exists with this key")
+                expect(err.message).to.equal("Error")
             });
         });
     })
