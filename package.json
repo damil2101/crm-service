@@ -4,9 +4,12 @@
   "description": "A POC Rest Api with NodeJs Express and MongoDb",
   "main": "index.js",
   "scripts": {
-    "test": "mocha",
-    "start": "nodemon -r esm index.js",
-    "debug": "nodemon -r esm --inspect index.js"
+    "test": "mocha -r ts-node/register 'src/api/test/*.ts'",
+    "tsc": "tsc",
+    "postinstall": "npm run tsc",
+    "dev": "ts-node-dev — respawn — pretty — transpile-only index.ts",
+    "start": "nodemon -r esm dist/index.js",
+    "debug": "nodemon -r esm --inspect dist/index.js"
   },
   "keywords": [
     "poc",
@@ -32,6 +35,16 @@
     "@babel/cli": "^7.17.10",
     "@babel/core": "^7.18.0",
     "@babel/preset-env": "^7.18.0",
-    "@babel/register": "^7.17.7"
+    "@babel/register": "^7.17.7",
+    "@types/chai": "^4.3.1",
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.5.1",
+    "@types/mocha": "^9.1.1",
+    "@types/node": "^17.0.35",
+    "@types/sinon": "^10.0.11",
+    "@typescript-eslint/parser": "^5.26.0",
+    "ts-node": "^10.8.0",
+    "ts-node-dev": "^1.1.8",
+    "typescript": "^4.6.4"
   }
 }
