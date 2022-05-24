@@ -1,6 +1,6 @@
-const { expect } = require("chai");
-const User = require("../models/user")
-const sinon = require("sinon");
+import { expect } from "chai";
+import User from "../models/user";
+import sinon from "sinon";
 
 
 describe("crm service unit tests",function(){
@@ -11,7 +11,8 @@ describe("crm service unit tests",function(){
             const email= "test@email.com";
             const age = 18;
             const occupation = "tester";
-            sinon.stub(User,"countDocuments").returns(0);
+            
+            sinon.stub(User,"countDocuments").resolves(0);
             sinon.stub(User.prototype,"save").returns({
                 name,email,age,occupation
             });
@@ -31,8 +32,9 @@ describe("crm service unit tests",function(){
             const email="test@email.com";
             const age=18;
             const occupation="developer";
-
-            sinon.stub(User,"countDocuments").returns(1)
+            sinon.restore();
+            sinon.stub(User,"countDocuments").resolves(1)
+            sinon.stub(User.prototype,"save").rejects();
             await new User({
                 _id,
                 name,

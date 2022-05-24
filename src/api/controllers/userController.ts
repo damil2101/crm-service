@@ -2,8 +2,8 @@ import User from '../models/user';
 
 class UserController {
 
-    list(req, res) {
-        User.get(function (err, users) {
+    list(_req, res) {
+        User.find(function (err, users) {
             if (err) {
                 res.json({
                     status: "error",
@@ -88,14 +88,14 @@ class UserController {
     remove = function (req, res) {
         User.remove({
             _id: req.params.user_id
-        }, function (err, contact) {
-            if (err)
-                res.send(err);
-            res.json({
-                status: "success",
-                message: 'User deleted'
+        }, (err: any) => {
+                if (err)
+                    res.send(err);
+                res.json({
+                    status: "success",
+                    message: 'User deleted'
+                });
             });
-        });
     };
 }
 

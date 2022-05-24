@@ -23,9 +23,8 @@ app.use('/crm', api);
 
 //db connection
 
-mongoose.connect(process.env.CONNECTION_STRING, {
-    useNewUrlParser: true,
-}).then(() => console.log('Db connection successful'))
+mongoose.connect(process.env.CONNECTION_STRING)
+    .then(() => console.log('Db connection successful'))
     .catch((err) => console.error(err));
 
 
