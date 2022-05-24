@@ -1,8 +1,15 @@
 import mongoose from "mongoose";
 
+interface IUser {
+    _id:number;
+    name:string;
+    email?:string;
+    age:number;
+    occupation?:string
+}
 
 //Schema
-var userSchema = new mongoose.Schema({
+var userSchema = new mongoose.Schema<IUser>({
     _id:Number,
     name:{
         type:String,
