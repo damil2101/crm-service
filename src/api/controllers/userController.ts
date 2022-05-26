@@ -72,7 +72,7 @@ class UserController {
                  user.occupation = req.body.occupation;
             if(req.body.age)    
                 user.age = req.body.age;
-            // save the contact and check for errors
+            // save the user and check for errors
             user.save(function (err) {
                 if (err)
                     res.json(err);
