@@ -12,6 +12,7 @@ class App {
     private user_routes:UserRoutes = new UserRoutes();
     private error_routes: ErrorRoutes = new ErrorRoutes();
     public dbConfig: string = env.getDbConfig();
+    private count=0;
     constructor() {
         this.app = express();
         this.config();
@@ -30,9 +31,16 @@ class App {
 
     private dbSetup(): void {
         //db connection
+        console.log('Attempting MongoDb connection (retry if needed)');
+        
         mongoose.connect(this.dbConfig)
             .then(() => console.log('Db connection successful'))
-            .catch((err) => console.error(err));
+            .catch((err) => {
+                console.error(err)
+                const retryInterval = 5;
+                console.log(`MongoFb connection unsuccessful (retrying for ${++this.count} times after ${retryInterval}`,err);
+                setTimeout(this.dbSetup,retryInterval*1000);
+            });
     }
 }
 

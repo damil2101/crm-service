@@ -10,13 +10,12 @@ class UserController {
 
     //Get all users
     public async listUsers(req:Request,res:Response){
-        await this.userService.getAllUsers((err:any,users)=>{
-            if(err){
-                responses.dbError(err,res);
-            } else{
-                responses.successResponse("Get all users sucess",users,res);
-            }
-        })
+        try {
+            const users = await this.userService.getAllUsers();
+            responses.successResponse("Get All Users Success",users,res);
+        } catch (error) {
+            responses.dbError(error,res);
+        }
     }
 
 
@@ -42,26 +41,27 @@ class UserController {
                 modification_note:'New User registered'
             }]
         };
-        await this.userService.createUser(userParams,(err:any,userData:IUser)=>{
-            if(err){
-                responses.dbError(err,res);
-            } else{
-                responses.successResponse('User registered ',userData,res);
-            }
-        })
+        try {
+            const createdUser = await this.userService.createUser(userParams);
+            responses.successResponse('User Registered',createdUser,res);
+        } catch (error) {
+            responses.dbError(error,res);
+        }
     }
 
     // Get User by Id
     public async getUser(req:Request,res:Response){
         if(req.params.user_id){
             const userfilter = {_id : parseInt(req.params.user_id)};
-            await this.userService.getUser(userfilter,(err:any,userData:IUser)=>{
-                if(err){
-                    responses.dbError(err,res);
-                } else{
-                    responses.successResponse('Get User Success',userData,res);
-                }
-            })
+            try {
+                const user = await this.userService.getUser(userfilter);
+                if(user)
+                    responses.successResponse('Get User Success',user,res);
+                else
+                    responses.nonExistant('Invalid or Non existent user',res);    
+            } catch (error) {
+                responses.dbError(error,res);
+            }
         } else{
             responses.insufficientParameters(res);
         }
@@ -70,10 +70,9 @@ class UserController {
     //Update User
     public async updateUser(req:Request,res:Response){
         const userFilter = {_id:parseInt(req.params.user_id)};
-        await this.userService.getUser(userFilter,async (err:any,userData:IUser)=>{
-            if(err){
-                responses.dbError(err,res);
-            } else if(userData){
+        try {
+            const userData = await this.userService.getUser(userFilter);
+            if(userData){
                 userData.auditInfo.push({
                     modified_on: new Date(Date.now()),
                     modified_by:null,
@@ -91,31 +90,32 @@ class UserController {
                     auditInfo : userData.auditInfo
                 }
 
-                await this.userService.updateUser(userParams,(err:any)=>{
-                    if(err){
-                        responses.dbError(err,res)
-                    } else{
-                        responses.successResponse('Update USer Success',null,res);
-                    }
-                });
-            } else{
-                responses.failureResponse("Invalid User",null,res);
+                const updatedUser = await this.userService.updateUser(userParams);
+                responses.successResponse("User Updated Successfully",null,res);
+                
             }
-        })
+            else{
+                responses.nonExistant("Invalid or non existant user",res);
+            }
+        } catch (error) {
+            responses.dbError(error,res);
+        }
     }
 
     //Delete User
     public async removeUser(req:Request,res:Response){
         if(req.params.user_id){
-            await this.userService.deleteUser(parseInt(req.params.user_id),(err:any,deleteInfo)=>{
-                if(err){
-                    responses.dbError(err,res);
-                } else if(deleteInfo.deletedCount !== 0){
-                    responses.successResponse('User Delete Success',null,res);
-                } else{
+            try {
+                const deleleInfo = await this.userService.deleteUser(parseInt(req.params.user_id));
+                if(deleleInfo.deletedCount !== 0 ){
+                    responses.successResponse('User deleted Successfully',null,res);
+                }
+                else{
                     responses.failureResponse('Invalid User',null,res);
                 }
-            })
+            } catch (error) {
+                responses.dbError(error,res);
+            }
         } else{
             responses.insufficientParameters(res);
         }

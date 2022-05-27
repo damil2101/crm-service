@@ -25,8 +25,15 @@ export function insufficientParameters(res: Response) {
     });
 }
 
+export function nonExistant(message:string,res: Response) {
+    res.status(status_codes.bad_request).json({
+        STATUS: 'FAILURE',
+        MESSAGE: message,
+        DATA: {}
+    });
+}
+
 export function dbError(err: any, res: Response) {
-    console.log(err);
 
     if(err._message === 'user validation failed'){
         res.status(status_codes.conflict).json({
@@ -35,9 +42,12 @@ export function dbError(err: any, res: Response) {
             DATA: err
         });
     }
-    res.status(status_codes.internal_server_error).json({
-        STATUS: 'FAILURE',
-        MESSAGE: 'MongoDB error',
-        DATA: err
-    });
+    else{
+        res.status(status_codes.internal_server_error).json({
+            STATUS: 'FAILURE',
+            MESSAGE: 'MongoDB error',
+            DATA: err
+        });
+    }
+   
 }

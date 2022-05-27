@@ -9,7 +9,7 @@ export class UserRoutes{
 
     public route(app:Application){
 
-        app.post('/crm/register',async (req:Request, res:Response) => {
+        app.post('/crm/register',async (req:Request, res:Response,next:any) => {
             await this.userCtrl.createUser(req,res);
         });
 

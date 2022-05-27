@@ -3,26 +3,26 @@ import User from "../models/user";
 
 export default class UserService {
     
-    public async createUser(userParams:IUser, callback:any){
+    public async createUser(userParams:IUser){
         const _userToCreate = new User(userParams);
-        await _userToCreate.save(callback);
+        return await _userToCreate.save();
     }
 
-    public async getUser(query:any,callback:any){
-        await User.findOne(query,callback);
+    public async getUser(query:any){
+       return await User.findOne(query);
     }
 
-    public async updateUser(userParams:IUser,callback:any){
+    public async updateUser(userParams:IUser){
         const query = {_id:userParams._id};
-        await User.findOneAndUpdate(query,userParams,callback);
+        return await User.findOneAndUpdate(query,userParams);
     }
 
-    public async deleteUser(_id:Number,callback:any){
+    public async deleteUser(_id:Number){
         const query = {_id:_id};
-        await User.deleteOne(query,callback);
+        return await User.deleteOne(query);
     }
 
-    public async getAllUsers(callback:any){
-        await User.find(callback);
+    public async getAllUsers(){
+        return await User.find();
     }
 }
