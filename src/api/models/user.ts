@@ -1,18 +1,29 @@
 import mongoose from "mongoose";
+import { AuditInfo } from "./common/audit";
+import uniqueValidator from 'mongoose-unique-validator';
 
-interface IUser {
+export interface IUser {
     _id:number;
-    name:string;
+    name:{
+        firstName:string,
+        lastName:string
+    };
     email?:string;
     age:number;
     occupation?:string
+    auditInfo:AuditInfo[]
 }
 
 //Schema
 var userSchema = new mongoose.Schema<IUser>({
-    _id:Number,
+    _id:{
+        type:Number
+    },
     name:{
-        type:String,
+        type:{
+            firstName:String,
+            lastName:String
+        },
         required:true
     },
     email:{
@@ -24,9 +35,11 @@ var userSchema = new mongoose.Schema<IUser>({
     },
     occupation:{
         type:String
-    }
+    },
+    auditInfo:[AuditInfo]
 });
 
+userSchema.plugin(uniqueValidator);
 //export user model
 var User:mongoose.Model<any> = mongoose.model('user',userSchema);
 export default User;
