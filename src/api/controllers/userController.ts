@@ -22,7 +22,7 @@ class UserController {
     //Create User
     public async createUser(req:Request,res:Response){
 
-        if(!req.body.user_id || !req.body.age || (!req.body.name.firstName && !req.body.name.lastName)){
+        if(!req.body.user_id || !req.body.dob || (!req.body.name.firstName && !req.body.name.lastName)){
             responses.insufficientParameters(res);
         }
 
@@ -33,14 +33,19 @@ class UserController {
                 lastName:req.body.name.lastName
             },
             email:req.body.email,
-            age:req.body.age,
+            dob:req.body.dob,
             occupation:req.body.occupation,
+            bodyHabits:req.body.bodyHabits,
+            mindHabits:req.body.mindHabits,
+            theme:req.body.theme,
             auditInfo:[{
                 modified_on: new Date(Date.now()),
                 modified_by:null,
                 modification_note:'New User registered'
             }]
         };
+
+
         try {
             const createdUser = await this.userService.createUser(userParams);
             responses.successResponse('User Registered',createdUser,res);
@@ -85,8 +90,11 @@ class UserController {
                         lastName:req.body.name.lastName ? req.body.name.lastName : userData.name.lastName
                     } : userData.name,
                     email: req.body.email ? req.body.email : userData.email,
-                    age: req.body.age ? req.body.age : userData.age,
+                    dob: req.body.dob ? req.body.dob : userData.dob,
                     occupation: req.body.occupation ? req.body.occupation : userData.occupation,
+                    bodyHabits:req.body.bodyHabits ? req.body.bodyHabits : userData.bodyHabits,
+                    mindHabits:req.body.mindHabits ? req.body.mindHabits : userData.mindHabits,
+                    theme:req.body.theme ? req.body.theme : userData.theme,
                     auditInfo : userData.auditInfo
                 }
 

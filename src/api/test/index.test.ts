@@ -1,4 +1,5 @@
 import { expect,assert } from "chai";
+import exp from "constants";
 import { Error } from "mongoose";
 import User, { IUser } from "../models/user";
 import UserService from "../services/user.service";
@@ -16,8 +17,11 @@ describe("crm service unit tests", function () {
                     lastName: "user"
                 },
                 email: "mochaTest@email.com",
-                age: 18,
+                dob: new Date("06/24/2008"),
                 occupation: "tester",
+                bodyHabits:["drink"],
+                mindHabits:["meditate"],
+                theme:"pink",
                 auditInfo: [{
                     modified_on: new Date(Date.now()),
                     modified_by: null,
@@ -38,8 +42,11 @@ describe("crm service unit tests", function () {
                     lastName: "user"
                 },
                 email: "mochaTest@email.com",
-                age: 18,
+                dob: new Date("06/24/2008"),
                 occupation: "tester",
+                bodyHabits:["drink"],
+                mindHabits:["meditate"],
+                theme:"pink",
                 auditInfo: [{
                     modified_on: new Date(Date.now()),
                     modified_by: null,
@@ -58,8 +65,11 @@ describe("crm service unit tests", function () {
                 _id: 101,
                 name: null,
                 email: "mochaTest@email.com",
-                age: 18,
+                dob: new Date("06/24/2008"),
                 occupation: "tester",
+                bodyHabits:["drink"],
+                mindHabits:["meditate"],
+                theme:"pink",
                 auditInfo: [{
                     modified_on: new Date(Date.now()),
                     modified_by: null,
@@ -74,7 +84,7 @@ describe("crm service unit tests", function () {
             }
             
         });
-        it("Should throw if missing required parameter age",async function () {
+        it("Should throw if missing required parameter date of birth",async function () {
             const userParams: IUser = {
                 _id: 101,
                 name: {
@@ -82,8 +92,11 @@ describe("crm service unit tests", function () {
                     lastName: "user"
                 },
                 email: "mochaTest@email.com",
-                age: null,
+                dob: null,
                 occupation: "tester",
+                bodyHabits:["drink"],
+                mindHabits:["meditate"],
+                theme:"pink",
                 auditInfo: [{
                     modified_on: new Date(Date.now()),
                     modified_by: null,
@@ -94,7 +107,7 @@ describe("crm service unit tests", function () {
             try {
                 await new UserService().createUser(userParams);
             } catch (error) {
-                expect(error.message).to.equal("user validation failed: age: Path `age` is required.")
+                expect(error.message).to.equal("user validation failed: dob: Path `dob` is required.")
             }
         });
         it("Should update user successfully with valid params", async function(){
@@ -115,16 +128,19 @@ describe("crm service unit tests", function () {
                         lastName: "user"
                     },
                     email: "mochaTest@email.com",
-                    age: null,
+                    dob: null,
                     occupation: "developer",
+                    bodyHabits:["drink"],
+                    mindHabits:["meditate"],
+                    theme:"pink",
                     auditInfo: user.auditInfo
                 };
                 const updatedUser = await new UserService().updateUser(userParams)
                 expect(updatedUser.occupation).to.equal(userParams.occupation);
-                expect(updatedUser.age).to.equal(user.age);
+                expect(updatedUser.dob).to.equal(user.dob);
             } catch (error) {
                 
             }
-        })
+        });
     })
 })

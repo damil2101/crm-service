@@ -9,9 +9,12 @@ export interface IUser {
         lastName:string
     };
     email?:string;
-    age:number;
-    occupation?:string
-    auditInfo:AuditInfo[]
+    dob:Date;
+    occupation?:string;
+    bodyHabits:string[];
+    mindHabits:string[];
+    auditInfo:AuditInfo[];
+    theme?:string
 }
 
 //Schema
@@ -29,13 +32,16 @@ var userSchema = new mongoose.Schema<IUser>({
     email:{
         type:String
     },
-    age:{
-        type:Number,
+    dob:{
+        type:Date,
         required:true
     },
     occupation:{
         type:String
     },
+    bodyHabits:[String],
+    mindHabits:[String],
+    theme:String,
     auditInfo:[AuditInfo]
 });
 
