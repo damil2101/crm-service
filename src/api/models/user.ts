@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import { AuditInfo } from "./common/audit";
 import uniqueValidator from 'mongoose-unique-validator';
+import userHabitsSchema, { IUserHabits } from "./userHabits";
 
 export interface IUser {
     _id:number;
@@ -8,11 +9,10 @@ export interface IUser {
         firstName:string,
         lastName:string
     };
-    email?:string;
+    email:string;
     dob:Date;
     occupation?:string;
-    bodyHabits:string[];
-    mindHabits:string[];
+    userHabits?:IUserHabits;
     auditInfo:AuditInfo[];
     theme?:string
 }
@@ -30,7 +30,9 @@ var userSchema = new mongoose.Schema<IUser>({
         required:true
     },
     email:{
-        type:String
+        type:String,
+        required:true,
+        unique:true
     },
     dob:{
         type:Date,
@@ -39,8 +41,7 @@ var userSchema = new mongoose.Schema<IUser>({
     occupation:{
         type:String
     },
-    bodyHabits:[String],
-    mindHabits:[String],
+    userHabits:userHabitsSchema,
     theme:String,
     auditInfo:[AuditInfo]
 });

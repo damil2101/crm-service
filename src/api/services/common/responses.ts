@@ -25,6 +25,14 @@ export function insufficientParameters(res: Response) {
     });
 }
 
+export function inValidParameters(message:string,res: Response) {
+    res.status(status_codes.bad_request).json({
+        STATUS: 'FAILURE',
+        MESSAGE: message,
+        DATA: {}
+    });
+}
+
 export function nonExistant(message:string,res: Response) {
     res.status(status_codes.bad_request).json({
         STATUS: 'FAILURE',

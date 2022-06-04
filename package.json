@@ -4,7 +4,7 @@
   "description": "A POC Rest Api with NodeJs Express and MongoDb",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register 'src/api/test/*.ts' --timeout 10000",
+    "test": "mocha -r ts-node/register 'src/api/test/*.ts' --timeout 30000",
     "tsc": "tsc",
     "postinstall": "npm run tsc",
     "dev": "ts-node-dev --respawn --pretty --transpile-only index.ts",

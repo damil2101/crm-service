@@ -3,6 +3,7 @@ import { IUser } from '../models/user';
 import {Request,Response} from 'express';
 import * as responses from '../services/common/responses';
 import UserService from '../services/user.service';
+import { bodyBasics, mindBasics } from '../models/userHabits';
 
 class UserController {
 
@@ -26,6 +27,18 @@ class UserController {
             responses.insufficientParameters(res);
         }
 
+        if(req.body.userHabits && req.body.userHabits.body.length > 0){
+            if(req.body.userHabits.body.some(key => !Object.values(bodyBasics).includes(key))){
+                responses.inValidParameters("Invalid values for body habits",res);
+            }
+        }
+
+        if(req.body.userHabits && req.body.userHabits.mind.length > 0){
+            if(req.body.userHabits.mind.some(key => !Object.values(mindBasics).includes(key))){
+                responses.inValidParameters("Invalid values for mindful habits",res);
+            }
+        }
+
         const userParams:IUser = {
             _id:req.body.user_id,
             name:{
@@ -35,9 +48,11 @@ class UserController {
             email:req.body.email,
             dob:req.body.dob,
             occupation:req.body.occupation,
-            bodyHabits:req.body.bodyHabits,
-            mindHabits:req.body.mindHabits,
             theme:req.body.theme,
+            userHabits:{
+                body:req.body.userHabits.body,
+                mind:req.body.userHabits.mind
+            },
             auditInfo:[{
                 modified_on: new Date(Date.now()),
                 modified_by:null,
@@ -92,8 +107,7 @@ class UserController {
                     email: req.body.email ? req.body.email : userData.email,
                     dob: req.body.dob ? req.body.dob : userData.dob,
                     occupation: req.body.occupation ? req.body.occupation : userData.occupation,
-                    bodyHabits:req.body.bodyHabits ? req.body.bodyHabits : userData.bodyHabits,
-                    mindHabits:req.body.mindHabits ? req.body.mindHabits : userData.mindHabits,
+                    userHabits:userData.userHabits,
                     theme:req.body.theme ? req.body.theme : userData.theme,
                     auditInfo : userData.auditInfo
                 }
@@ -128,6 +142,7 @@ class UserController {
             responses.insufficientParameters(res);
         }
     }
+
 }
 
 export default UserController;
