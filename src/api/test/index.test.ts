@@ -1,8 +1,5 @@
-import { expect, assert } from "chai";
-import exp from "constants";
-import { Error } from "mongoose";
-import userController from "../../../dist/api/controllers/userController";
-import User, { IUser } from "../models/user";
+import { expect } from "chai";
+import { IUser } from "../models/user";
 import { bodyBasics, mindBasics } from "../models/userHabits";
 import UserService from "../services/user.service";
 
