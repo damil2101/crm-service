@@ -3,7 +3,8 @@ dotenv.config({ path: './config.env' })
 
 enum Environments {
     dev = 'dev',
-    prod = 'prod'
+    prod = 'prod',
+    local = 'local'
 }
 
 class Environment {
@@ -24,10 +25,11 @@ class Environment {
     getDbConfig():string{
         if(this.environment === Environments.prod){
             return 'prodDbConfig' //define production config
-        } else{
-            return process.env.CONNECTION_STRING  
-        }
+        } else if (this.environment === Environments.dev){
+            return process.env.CONNECTION_STRING
+        } else  
+            return process.env.CONNECTION_STRING_LOCAL
     }
 }
 
-export default new Environment(Environments.dev);
+export default new Environment(Environments.local);

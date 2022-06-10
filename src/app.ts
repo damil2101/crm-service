@@ -4,7 +4,7 @@ import { TestRoutes } from './api/routes/test-routes';
 import { ErrorRoutes } from './api/routes/error-routes';
 import { UserRoutes } from './api/routes/api-routes';
 import env from './environments';
-import mongoose from 'mongoose';
+import mongoose, { ConnectOptions } from 'mongoose';
 
 class App {
     public app: express.Application;
@@ -33,7 +33,9 @@ class App {
         //db connection
         console.log('Attempting MongoDb connection (retry if needed)');
         
-        mongoose.connect(this.dbConfig)
+        mongoose.connect(this.dbConfig,{
+            useNewUrlParser: true,
+            useUnifiedTopology: true } as ConnectOptions)
             .then(() => console.log('Db connection successful'))
             .catch((err) => {
                 console.error(err)
